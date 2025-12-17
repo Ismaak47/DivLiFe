@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="sw" data-lang="sw">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DivLiFe – Divine Life Path</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="styles.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+<script src="script.js" defer></script>
+</head>
+<body>
+<div class="stars"></div>
+<aside class="sidebar">
+  <div class="brand">
+    <img src="logo.svg" alt="DivLiFe" class="logo" />
+    <div class="brand-text">
+      <span class="title">DivLiFe</span>
+      <span class="subtitle" data-i18n="brand_sub">Divine Life Path</span>
+    </div>
+  </div>
+  <nav class="nav">
+    <a href="#home" class="nav-link active" data-i18n="nav_home">Nyumbani</a>
+    <a href="#results" class="nav-link" data-i18n="nav_results">Matokeo</a>
+    <a href="#history" class="nav-link" data-i18n="nav_history">Historia</a>
+    <a href="#about" class="nav-link" data-i18n="nav_about">Kuhusu</a>
+    <a href="#contact" class="nav-link" data-i18n="nav_contact">Mawasiliano</a>
+  </nav>
+  <div class="actions">
+    <button id="langToggle" class="btn glow small" aria-label="Language">SW/EN</button>
+    <button id="scanBtn" class="btn glow" data-i18n="scan_now">Scan Now</button>
+  </div>
+</aside>
+
+<main class="main">
+  <section id="home" class="panel active">
+    <h1 class="panel-title" data-i18n="home_title">Gundua Nyota na Njia ya Maisha</h1>
+    <p class="intro" data-i18n="home_intro">Ingiza taarifa zako hapa chini kisha bonyeza Scan. Matokeo yataonekana kama dashboard ya utambuzi yenye gauges, nyota zinazong'aa, na uchambuzi wa kina.</p>
+    <div class="card">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="fullName" data-i18n="label_name">Jina Kamili</label>
+          <input id="fullName" type="text" placeholder="Ismail" />
+        </div>
+        <div class="form-field">
+          <label data-i18n="label_dob">Tarehe ya Kuzaliwa</label>
+          <div class="dob-grid">
+            <input id="dobDay" type="number" placeholder="DD" min="1" max="31" />
+            <input id="dobMonth" type="number" placeholder="MM" min="1" max="12" />
+            <input id="dobYear" type="number" placeholder="YYYY" min="1900" max="2100" />
+          </div>
+        </div>
+        <div class="form-field">
+          <label data-i18n="label_auto">Hesabu Kiotomatiki</label>
+          <div class="toggle-row">
+            <input type="checkbox" id="autoCalc" checked />
+            <label for="autoCalc" data-i18n="label_auto_hint">Tumia hesabu moja kwa moja bila kubonyeza</label>
+          </div>
+        </div>
+      </div>
+      <div class="cta-row">
+        <button id="diagnoseBtn" class="btn pulse" data-i18n="diagnose">Diagnose Life Path</button>
+      </div>
+    </div>
+    <div class="card secondary">
+      <h2 class="panel-subtitle" data-i18n="compat_title">Kiwango cha Ulinganifu</h2>
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="fullName2" data-i18n="label_name2">Jina la Mwenza</label>
+          <input id="fullName2" type="text" placeholder="Amina" />
+        </div>
+        <div class="form-field">
+          <label data-i18n="label_dob2">Tarehe ya Kuzaliwa ya Mwenza</label>
+          <div class="dob-grid">
+            <input id="dobDay2" type="number" placeholder="DD" min="1" max="31" />
+            <input id="dobMonth2" type="number" placeholder="MM" min="1" max="12" />
+            <input id="dobYear2" type="number" placeholder="YYYY" min="1900" max="2100" />
+          </div>
+        </div>
+      </div>
+      <div class="cta-row">
+        <button id="compatBtn" class="btn glow" data-i18n="compat_check">Check Compatibility</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="results" class="panel">
+    <h1 class="panel-title" data-i18n="results_title">Matokeo ya Utambuzi</h1>
+    <div class="dashboard">
+      <div class="gauge-card">
+        <h3 data-i18n="zodiac_title">Nyota</h3>
+        <div class="zodiac-header">
+          <div class="zodiac-icon"><i class="fa-solid fa-star"></i></div>
+          <div class="zodiac-info">
+            <div id="zodiacName" class="zodiac-name">–</div>
+            <div id="zodiacMeta" class="zodiac-meta">–</div>
+          </div>
+        </div>
+        <canvas id="zodiacGauge" width="320" height="160"></canvas>
+        <div id="zodiacTexts" class="texts"></div>
+        <div class="lights">
+          <span class="light green" id="lightPositive"></span>
+          <span class="light red" id="lightNegative"></span>
+        </div>
+      </div>
+      <div class="gauge-card">
+        <h3 data-i18n="life_title">Life Path</h3>
+        <div class="life-header">
+          <div class="life-number" id="lifeNumber">–</div>
+          <div class="life-steps" id="lifeSteps">–</div>
+        </div>
+        <canvas id="lifeGauge" width="320" height="160"></canvas>
+        <div id="lifeTexts" class="texts"></div>
+      </div>
+      <div class="gauge-card">
+        <h3 data-i18n="compat_panel">Ulinganifu</h3>
+        <div class="compat-header">
+          <div id="compatScoreText" class="compat-score">–</div>
+          <div class="hearts">
+            <i class="fa-solid fa-heart heart"></i>
+            <i class="fa-solid fa-heart heart"></i>
+            <i class="fa-solid fa-heart heart"></i>
+          </div>
+        </div>
+        <canvas id="compatGauge" width="320" height="160"></canvas>
+        <div id="compatTexts" class="texts"></div>
+      </div>
+      <div class="gauge-card">
+        <h3 data-i18n="name_title">Name Numerology</h3>
+        <div class="name-header">
+          <div class="badge-row">
+            <div class="badge"><span data-i18n="expression_label">Expression</span><strong id="exprNum">–</strong></div>
+            <div class="badge"><span data-i18n="soul_label">Soul Urge</span><strong id="soulNum">–</strong></div>
+            <div class="badge"><span data-i18n="personality_label">Personality</span><strong id="persNum">–</strong></div>
+          </div>
+        </div>
+        <canvas id="nameGauge" width="320" height="160"></canvas>
+        <div id="nameTexts" class="texts"></div>
+      </div>
+      <div class="gauge-card">
+        <h3 data-i18n="element_title">Element Balance</h3>
+        <div class="element-header"><div id="elementMeta" class="zodiac-meta">–</div></div>
+        <canvas id="elementGauge" width="320" height="160"></canvas>
+        <div id="elementTexts" class="texts"></div>
+      </div>
+      <div class="gauge-card">
+        <h3 data-i18n="chinese_title">Chinese Zodiac</h3>
+        <div class="chinese-header">
+          <div id="chineseName" class="zodiac-name">–</div>
+          <div id="chineseMeta" class="zodiac-meta">–</div>
+        </div>
+        <canvas id="chineseGauge" width="320" height="160"></canvas>
+        <div id="chineseTexts" class="texts"></div>
+      </div>
+      <div class="gauge-card">
+        <h3 data-i18n="year_title">Personal Year Forecast</h3>
+        <div class="year-header">
+          <div class="life-number" id="yearNumber">–</div>
+          <div class="zodiac-meta" id="yearMeta">–</div>
+        </div>
+        <canvas id="yearGauge" width="320" height="160"></canvas>
+        <div id="yearTexts" class="texts"></div>
+      </div>
+      <div class="gauge-card">
+        <h3 data-i18n="luck_title">Luck Profile</h3>
+        <div class="luck-header">
+          <div class="badge-row">
+            <div class="badge"><span data-i18n="luck_numbers_label">Lucky Numbers</span><strong id="luckNumbers">–</strong></div>
+            <div class="badge"><span data-i18n="luck_colors_label">Lucky Colors</span><strong id="luckColors">–</strong></div>
+            <div class="badge"><span data-i18n="luck_day_label">Lucky Day</span><strong id="luckDay">–</strong></div>
+          </div>
+        </div>
+        <canvas id="luckGauge" width="320" height="160"></canvas>
+        <div id="luckTexts" class="texts"></div>
+      </div>
+      <div class="gauge-card">
+        <h3 data-i18n="career_title">Career & Talents</h3>
+        <div id="careerTexts" class="texts"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="history" class="panel">
+    <h1 class="panel-title" data-i18n="history_title">Historia ya Utambuzi</h1>
+    <div class="card">
+      <div id="historyList" class="history-list"></div>
+      <div id="historyEmpty" class="status" data-i18n="history_empty">Bado hakuna rekodi.</div>
+    </div>
+  </section>
+
+  <section id="about" class="panel">
+    <h1 class="panel-title" data-i18n="about_title">Kuhusu DivLiFe</h1>
+    <div class="card">
+      <p data-i18n="about_p1">DivLiFe ni dashboard ya kutabiri na kuchambua nyota (astrology) na namba za maisha (numerology) kwa namna ya kiotomatiki na ya kuona (visual). Inatumia gauges, charts, na animations za anga.</p>
+      <p data-i18n="about_p2">Matokeo yanakusudiwa kuwa mwongozo wa kujitambua na si uamuzi wa mwisho. Tumia kama dira ya kujiboresha na kupanga malengo yako.</p>
+      <p data-i18n="about_p3">Hakuna backend; data yako haiko kwenye server. Kila kitu hufanyika kwenye browser yako.</p>
+    </div>
+  </section>
+
+  <section id="contact" class="panel">
+    <h1 class="panel-title" data-i18n="contact_title">Wasiliana Nasi</h1>
+    <div class="card">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="cName" data-i18n="label_cname">Jina</label>
+          <input id="cName" type="text" />
+        </div>
+        <div class="form-field">
+          <label for="cEmail" data-i18n="label_cemail">Barua pepe</label>
+          <input id="cEmail" type="email" />
+        </div>
+        <div class="form-field span-2">
+          <label for="cMsg" data-i18n="label_cmsg">Ujumbe</label>
+          <textarea id="cMsg" rows="4"></textarea>
+        </div>
+      </div>
+      <div class="cta-row">
+        <button id="contactSend" class="btn glow" data-i18n="contact_send">Tuma</button>
+        <div id="contactStatus" class="status">–</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="toast" class="toast">DivLiFe</div>
+</body>
+</html>
